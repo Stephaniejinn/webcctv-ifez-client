@@ -26,7 +26,7 @@ const VideoContainer = ({
 			<div className="video-container-streamming">
 				<Card>{httpAddress && <Video source={httpAddress} />}</Card>
 			</div>
-			<div className="video-container-graph">
+			{/* <div className="video-container-graph">
 				<StreamingGenVisualization
 					startDate={date}
 					endTime={date}
@@ -34,7 +34,7 @@ const VideoContainer = ({
 					realtimeCamCode={realtimeCamCode}
 					setLoggedIn={setLoggedIn}
 				/>
-			</div>
+			</div> */}
 		</div>
 	);
 };
