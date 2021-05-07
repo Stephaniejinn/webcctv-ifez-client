@@ -41,6 +41,7 @@ const OverspeedPage = (props) => {
 							setEndTime={setEndTime}
 							setFirstFilter={setFirstFilter}
 							setCount={setCount}
+							firstFilter={firstFilter}
 						/>
 						{firstFilter ? (
 							<>

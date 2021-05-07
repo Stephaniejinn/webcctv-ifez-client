@@ -23,6 +23,8 @@ const SearchCollapsedTable = (props) => {
 		trafficURL,
 		setLoggedIn,
 		camLanes,
+		associateIds,
+		ocrFlag,
 	} = props;
 	const { Panel } = Collapse;
 	const { Title, Text } = Typography;
@@ -45,6 +47,11 @@ const SearchCollapsedTable = (props) => {
 
 	const [isEmptyTrafficData, setEmptyTrafficData] = useState(false);
 	const [isEmptyOverSpeedData, setEmptyOverSpeedData] = useState(false);
+
+	const camCodes =
+		associateIds.length !== 0
+			? `camCodes=[${[...associateIds, cameraCode]}]`
+			: `camCode=${cameraCode}`;
 
 	var countFirstCol;
 	var countSecondCol;
@@ -228,7 +235,7 @@ const SearchCollapsedTable = (props) => {
 		var secondDataParsed = [];
 		axios
 			.get(
-				`${baseURL}${trafficURL}/daily?camCode=${cameraCode}&startDate=${startDate}&endTime=${endTime} 23:59:59&axis=time&laneNumber=0`,
+				`${baseURL}${trafficURL}/daily?${camCodes}&startDate=${startDate}&endTime=${endTime} 23:59:59&axis=time&laneNumber=0`,
 				{
 					headers: {
 						Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -395,7 +402,7 @@ const SearchCollapsedTable = (props) => {
 		var OverSpeedParsed = [];
 		axios
 			.get(
-				`${baseURL}/violations/speeding/records?camCode=${cameraCode}&startDate=${startDate}&endTime=${endTime} 23:59:59&limit=0&offset=0`,
+				`${baseURL}/violations/speeding/records?${camCodes}&startDate=${startDate}&endTime=${endTime} 23:59:59&limit=0&offset=0`,
 				{
 					headers: {
 						Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -423,7 +430,11 @@ const SearchCollapsedTable = (props) => {
 						);
 
 						overSpeedDataTemp["vehicleType"] = vehicleType;
-						overSpeedDataTemp["licenseNumber"] = licenseNumber;
+						if (ocrFlag) {
+							overSpeedDataTemp["licenseNumber"] = licenseNumber;
+						} else {
+							overSpeedDataTemp["licenseNumber"] = "지원하지 않은 카메라입니다";
+						}
 						overSpeedDataTemp["speed"] = speed;
 						overSpeedDataTemp["laneNumber"] = `${laneNumber} 차선`;
 
@@ -462,7 +473,7 @@ const SearchCollapsedTable = (props) => {
 		var firstDataLane = [];
 		axios
 			.get(
-				`${baseURL}${trafficURL}/daily?camCode=${cameraCode}&startDate=${startDate}&endTime=${endTime} 23:59:59&axis=time&laneNumber=${laneNum.toString()}`,
+				`${baseURL}${trafficURL}/daily?${camCodes}&startDate=${startDate}&endTime=${endTime} 23:59:59&axis=time&laneNumber=${laneNum.toString()}`,
 				{
 					headers: {
 						Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -732,6 +743,8 @@ const mapStateToProps = (state) => {
 		baseURL: state.baseURL.baseURL,
 		trafficURL: state.baseURL.trafficURL,
 		camLanes: state.locationCode.camLanes,
+		associateIds: state.locationCode.associateIds,
+		ocrFlag: state.locationCode.ocrFlag,
 	};
 };
 

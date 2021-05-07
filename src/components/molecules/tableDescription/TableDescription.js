@@ -53,7 +53,7 @@ const TableDescription = (props) => {
 				{period === "DAY" ? (
 					page === "REALSTATISTIC" ? (
 						<>
-							{camera.length === 0 ? "수인사거리-1 [하행]" : camera}
+							{camera}
 							<Divider type="vertical" />
 							{moment(startDate).format("YYYY년 MM월 DD일")}
 							<Divider type="vertical" />

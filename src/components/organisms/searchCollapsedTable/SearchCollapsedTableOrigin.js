@@ -6,7 +6,6 @@ import moment from "moment";
 
 import axios from "axios";
 import { connect } from "react-redux";
-import * as actions from "../../../redux/actions";
 
 import FirstTable from "../../molecules/StatisticsTable/searchTable/SearchFirstTable";
 import SecondTable from "../../molecules/StatisticsTable/searchTable/SearchSecondTable";
@@ -23,6 +22,7 @@ const SearchCollapsedTable = (props) => {
 		baseURL,
 		trafficURL,
 		setLoggedIn,
+		associateIds,
 	} = props;
 	const { Panel } = Collapse;
 	const { Title, Text } = Typography;
@@ -43,6 +43,11 @@ const SearchCollapsedTable = (props) => {
 
 	const [isEmptyTrafficData, setEmptyTrafficData] = useState(false);
 	const [isEmptyOverSpeedData, setEmptyOverSpeedData] = useState(false);
+
+	const camCodes =
+		associateIds.length !== 0
+			? `camCodes=[${[...associateIds, cameraCode]}]`
+			: `camCode=${cameraCode}`;
 
 	var countFirstCol;
 	var countSecondCol;
@@ -120,7 +125,7 @@ const SearchCollapsedTable = (props) => {
 		var secondDataParsed = [];
 		axios
 			.get(
-				`${baseURL}${trafficURL}/daily?camCode=${cameraCode}&startDate=${startDate}&endTime=${endTime} 23:59:59&axis=time&laneNumber=0`,
+				`${baseURL}${trafficURL}/daily?${camCodes}&startDate=${startDate}&endTime=${endTime} 23:59:59&axis=time&laneNumber=0`,
 				{
 					headers: {
 						Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -287,7 +292,7 @@ const SearchCollapsedTable = (props) => {
 		var OverSpeedParsed = [];
 		axios
 			.get(
-				`${baseURL}/violations/speeding/records?camCode=${cameraCode}&startDate=${startDate}&endTime=${endTime} 23:59:59&limit=0&offset=0`,
+				`${baseURL}/violations/speeding/records?${camCodes}&startDate=${startDate}&endTime=${endTime} 23:59:59&limit=0&offset=0`,
 				{
 					headers: {
 						Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -550,19 +555,8 @@ const mapStateToProps = (state) => {
 		camera: state.location.camera,
 		baseURL: state.baseURL.baseURL,
 		trafficURL: state.baseURL.trafficURL,
+		associateIds: state.locationCode.associateIds,
 	};
 };
-const mapDispatchToProps = (dispatch) => {
-	return {
-		getLocationCodeInfo: () => {
-			dispatch(actions.getLocationCode());
-		},
-		getBaseURL: () => {
-			dispatch(actions.getURL());
-		},
-	};
-};
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(SearchCollapsedTable);
+
+export default connect(mapStateToProps)(SearchCollapsedTable);

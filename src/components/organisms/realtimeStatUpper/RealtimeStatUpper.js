@@ -9,39 +9,21 @@ import Breadcrumb from "../../atoms/breadcrumb/Breadcrumb";
 import SearchDrawer from "../../molecules/searchDrawer/SearchDrawer";
 
 const RealtimeStatUpper = (props) => {
-	const { Title } = Typography;
+	const { Title, Text } = Typography;
 	const {
 		city,
 		district,
 		road,
 		spot,
 		camera,
+		associateIds,
 		currTime,
 		setCurrTime,
 		setRefresh,
+		upboundFlag,
 	} = props;
-	var locationHierarchy = [];
-	var camName = "";
+	var locationHierarchy = [city, district, road, spot];
 
-	const defaultLocationHierarchy = [
-		"인천광역시",
-		"중구",
-		"서해대로",
-		"수인사거리",
-	];
-	if (
-		(city.length === 0 ||
-			district.length === 0 ||
-			road.length === 0 ||
-			spot.length === 0,
-		camera.length === 0)
-	) {
-		locationHierarchy = defaultLocationHierarchy;
-		camName = "수인사거리-1 [하행]";
-	} else {
-		locationHierarchy = [city, district, road, spot];
-		camName = camera;
-	}
 	const handleRefresh = () => {
 		if (
 			Math.floor(currTime.minute() / 15) * 15 ===
@@ -61,10 +43,10 @@ const RealtimeStatUpper = (props) => {
 			/>
 			<div className="page-title-and-search-input">
 				<div className="page-title-and-search-input-refresh-button">
-					<Title level={3} style={{ minWidth: 360 }}>
-						실시간 통계 | {camName}
+					<Title level={3} style={{ minWidth: 450, marginBottom: 0 }}>
+						{camera} 카메라 | 실시간 통계
 					</Title>
-					<Button onClick={handleRefresh} style={{ marginTop: 2 }}>
+					<Button onClick={handleRefresh} style={{ marginTop: 0 }}>
 						새로고침
 					</Button>
 				</div>
@@ -72,6 +54,12 @@ const RealtimeStatUpper = (props) => {
 					<SearchDrawer />
 				</div>
 			</div>
+			{associateIds.length !== 0 && (
+				<Text type="secondary" strong style={{ marginTop: 5 }}>
+					{spot}
+					{upboundFlag ? " 진출" : " 진입"} 통합 데이터
+				</Text>
+			)}
 		</>
 	);
 };
@@ -83,6 +71,8 @@ const mapStateToProps = (state) => {
 		road: state.location.road,
 		spot: state.location.spot,
 		camera: state.location.camera,
+		associateIds: state.locationCode.associateIds,
+		upboundFlag: state.locationCode.upboundFlag,
 	};
 };
 const mapDispatchToProps = (dispatch) => {

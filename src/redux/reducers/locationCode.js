@@ -5,7 +5,10 @@ const initialState = {
 	spotCode: "",
 	cameraCode: "",
 	camAddress: "",
-	camLanes: "",
+	camLanes: 0,
+	ocrFlag: true,
+	associateIds: "",
+	upboundFlag: true,
 };
 export default function locationCode(state = initialState, action) {
 	switch (action.type) {
@@ -21,6 +24,9 @@ export default function locationCode(state = initialState, action) {
 				cameraCode,
 				camAddress,
 				camLanes,
+				ocrFlag,
+				associateIds,
+				upboundFlag,
 			} = action.payload;
 
 			return {
@@ -31,6 +37,9 @@ export default function locationCode(state = initialState, action) {
 				cameraCode,
 				camAddress,
 				camLanes,
+				ocrFlag,
+				associateIds,
+				upboundFlag,
 			};
 		default:
 			return state;

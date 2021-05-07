@@ -18,6 +18,7 @@ const LaneVisualization = (props) => {
 		trafficURL,
 		additionalFilter,
 		setLoggedIn,
+		associateIds,
 	} = props;
 	const { Text } = Typography;
 
@@ -27,13 +28,18 @@ const LaneVisualization = (props) => {
 	const [isEmptyData, setEmptyData] = useState(false);
 	const [trafficTotalData, setTrafficTotalData] = useState([]);
 
+	const camCodes =
+		associateIds.length !== 0
+			? `camCodes=[${[...associateIds, cameraCode]}]`
+			: `camCode=${cameraCode}`;
+
 	const periodURL =
 		period === "DAY" ? "/daily" : period === "WEEK" ? "/weekly" : "/monthly";
 
 	const currentURL =
 		period === "DAY"
-			? `${baseURL}${trafficURL}${periodURL}?camCode=${cameraCode}&startDate=${startDate}&endTime=${endTime} 23:59:59&axis=lane`
-			: `${baseURL}${trafficURL}${periodURL}?camCode=${cameraCode}&startDate=${startDate}&endTime=${endTime} 23:59:59&axis=lane&weekOption=${additionalFilter}`;
+			? `${baseURL}${trafficURL}${periodURL}?${camCodes}&startDate=${startDate}&endTime=${endTime} 23:59:59&axis=lane`
+			: `${baseURL}${trafficURL}${periodURL}?${camCodes}&startDate=${startDate}&endTime=${endTime} 23:59:59&axis=lane&weekOption=${additionalFilter}`;
 
 	useEffect(() => {
 		setEmptyData(false);
@@ -118,6 +124,7 @@ const mapStateToProps = (state) => {
 		camLanes: state.locationCode.camLanes,
 		baseURL: state.baseURL.baseURL,
 		trafficURL: state.baseURL.trafficURL,
+		associateIds: state.locationCode.associateIds,
 	};
 };
 

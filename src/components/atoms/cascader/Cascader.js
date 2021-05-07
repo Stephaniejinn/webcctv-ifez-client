@@ -19,12 +19,19 @@ const MyCascader = (props) => {
 	const [parsedOptions, setParsedOptions] = useState([]);
 	const [camAddress, setCamAddress] = useState({});
 	const [camLanes, setCamLanes] = useState({});
+	const [camAssociateIds, setCamAssociateIds] = useState({});
+	const [camOCR, setCamOCR] = useState({});
+	const [camDirection, setCamDirection] = useState({});
 
 	const currentURL = "/locations";
 	var locationOptionsParse = [];
 	var cameraAddress = {};
 	var cameraLanes = {};
-
+	var cameraAssociateIds = {};
+	var cameraOCR = {};
+	var cameraDirection = {};
+	// var totalAddres = new Set();
+	// var totalCameraName = new Set();
 	if (props.city === "" || displayLocation === false) {
 		var defaultOption = [];
 	} else {
@@ -60,12 +67,16 @@ const MyCascader = (props) => {
 					setParsedOptions(locationOptionsParse);
 					setCamAddress(cameraAddress);
 					setCamLanes(cameraLanes);
+					setCamOCR(cameraOCR);
+					setCamAssociateIds(cameraAssociateIds);
+					setCamDirection(cameraDirection);
+					// setAddress(totalAddres);
+					// setCameraName(totalCameraName);
 				});
 			})
 			.catch((err) => {
 				console.log(err);
 			});
-		// }
 	};
 	const getDisricts = (cityCode) => {
 		axios
@@ -200,8 +211,6 @@ const MyCascader = (props) => {
 	) => {
 		axios
 			.get(
-				// `${baseURL}${currentURL}/${cityCode}/${districtCode}/${roadCode}/${spotCode}/cameras`,
-
 				`${baseURL}${currentURL}/${cityCode}/${districtCode}/${roadCode}/${spotCode}/cameras`,
 				{
 					headers: {
@@ -218,6 +227,8 @@ const MyCascader = (props) => {
 						upboundFlag,
 						httpStreamAddr,
 						lanesTotal,
+						associateIds,
+						ocrFlag,
 					} = cameraInfo;
 					const cameraTemp = {};
 					cameraTemp["value"] = camCode;
@@ -228,6 +239,17 @@ const MyCascader = (props) => {
 					currentCameras.push(cameraTemp);
 					cameraAddress[camCode] = httpStreamAddr;
 					cameraLanes[camCode] = lanesTotal;
+					cameraOCR[camCode] = ocrFlag;
+					if (associateIds) {
+						cameraAssociateIds[camCode] = associateIds
+							.slice(1, associateIds.length - 1)
+							.split(",");
+					} else {
+						cameraAssociateIds[camCode] = "";
+					}
+					cameraDirection[camCode] = upboundFlag;
+					// totalCameraName.add(camName);
+					// totalAddres.add(httpStreamAddr);
 				});
 			})
 			.catch((err) => {
@@ -236,6 +258,7 @@ const MyCascader = (props) => {
 	};
 
 	const onChange = (value, selectedOptions) => {
+		console.log(value, selectedOptions);
 		const optionVals = selectedOptions.map((item) => item.label);
 		const optionKeys = ["city", "district", "road", "spot", "camera"];
 		const selectedLocation = optionVals.reduce((obj, item, idx) => {
@@ -256,6 +279,9 @@ const MyCascader = (props) => {
 		}, {});
 		selectedLocationCode["camAddress"] = camAddress[value[4]];
 		selectedLocationCode["camLanes"] = camLanes[value[4]];
+		selectedLocationCode["ocrFlag"] = camOCR[value[4]];
+		selectedLocationCode["associateIds"] = camAssociateIds[value[4]];
+		selectedLocationCode["upboundFlag"] = camDirection[value[4]];
 
 		setSelectedLocation(selectedLocation);
 		setSelectedLocationCode(selectedLocationCode);

@@ -24,6 +24,7 @@ const GeneralVisualization = (props) => {
 		trafficURL,
 		refresh,
 		setLoggedIn,
+		associateIds,
 	} = props;
 	const [isLoadingTraffic, setLoadingTraffic] = useState(true);
 	const [isEmptyData, setEmptyData] = useState(false);
@@ -31,6 +32,11 @@ const GeneralVisualization = (props) => {
 	const [curEndTime, setCurEndTime] = useState("");
 
 	var camCode = cameraCode.length === 0 ? "0001" : cameraCode;
+
+	const camCodes =
+		associateIds.length !== 0
+			? `camCodes=[${[...associateIds, camCode]}]`
+			: `camCode=${camCode}`;
 
 	var curTime = currentTime ? currentTime : "23:59:59";
 	const periodURL =
@@ -56,7 +62,7 @@ const GeneralVisualization = (props) => {
 	const getTrafficData = () => {
 		axios
 			.get(
-				`${baseURL}${trafficURL}${periodURL}?camCode=${camCode}&startDate=${startDate}&endTime=${endTime} ${curTime}&axis=time&laneNumber=0`,
+				`${baseURL}${trafficURL}${periodURL}?${camCodes}&startDate=${startDate}&endTime=${endTime} ${curTime}&axis=time&laneNumber=0`,
 				{
 					headers: {
 						Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -149,6 +155,7 @@ const mapStateToProps = (state) => {
 		cameraCode: state.locationCode.cameraCode,
 		baseURL: state.baseURL.baseURL,
 		trafficURL: state.baseURL.trafficURL,
+		associateIds: state.locationCode.associateIds,
 	};
 };
 

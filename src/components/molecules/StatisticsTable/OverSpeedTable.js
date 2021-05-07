@@ -12,7 +12,6 @@ import moment from "moment";
 
 import axios from "axios";
 import { connect } from "react-redux";
-import * as actions from "../../../redux/actions";
 
 import Video from "../../molecules/video/Video";
 import "./style.less";
@@ -22,10 +21,12 @@ const OverSpeedTable = (props) => {
 		startDate,
 		endTime,
 		cameraCode,
+		associateIds,
 		baseURL,
 		camera,
 		overSpeedVideoURL,
 		setLoggedIn,
+		ocrFlag,
 	} = props;
 	const { Text } = Typography;
 
@@ -36,6 +37,12 @@ const OverSpeedTable = (props) => {
 	const [isVideoModalVisible, setVideoModalVisible] = useState(false);
 	const [shownKey, setShownKey] = useState("");
 	const [isVideoSource, setVideoSource] = useState(true);
+
+	const camCodes =
+		associateIds.length !== 0
+			? `camCodes=[${[...associateIds, cameraCode]}]`
+			: `camCode=${cameraCode}`;
+
 	var TotalData = [];
 
 	useEffect(() => {
@@ -196,7 +203,7 @@ const OverSpeedTable = (props) => {
 	const axiosData = () => {
 		axios
 			.get(
-				`${baseURL}/violations/speeding/records?camCode=${cameraCode}&startDate=${startDate}&endTime=${endTime} 23:59:59&limit=0&offset=0`,
+				`${baseURL}/violations/speeding/records?${camCodes}&startDate=${startDate}&endTime=${endTime} 23:59:59&limit=0&offset=0`,
 				{
 					headers: {
 						Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -226,7 +233,11 @@ const OverSpeedTable = (props) => {
 							dataTemp["time"] = moment(recordTime).format("HH:mm:ss");
 						}
 						dataTemp["vehicleType"] = vehicleType;
-						dataTemp["licenseNumber"] = licenseNumber;
+						if (ocrFlag) {
+							dataTemp["licenseNumber"] = licenseNumber;
+						} else {
+							dataTemp["licenseNumber"] = "지원하지 않은 카메라입니다";
+						}
 						dataTemp["speed"] = `${speed} km/h`;
 						dataTemp["laneNumber"] = `${laneNumber} 차선`;
 						dataTemp["imageLink"] = [
@@ -303,16 +314,9 @@ const mapStateToProps = (state) => {
 		baseURL: state.baseURL.baseURL,
 		camera: state.location.camera,
 		overSpeedVideoURL: state.baseURL.overSpeedVideoURL,
+		associateIds: state.locationCode.associateIds,
+		ocrFlag: state.locationCode.ocrFlag,
 	};
 };
-const mapDispatchToProps = (dispatch) => {
-	return {
-		getLocationCodeInfo: () => {
-			dispatch(actions.getLocationCode());
-		},
-		getBaseURL: () => {
-			dispatch(actions.getURL());
-		},
-	};
-};
-export default connect(mapStateToProps, mapDispatchToProps)(OverSpeedTable);
+
+export default connect(mapStateToProps)(OverSpeedTable);

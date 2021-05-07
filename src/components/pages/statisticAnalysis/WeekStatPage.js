@@ -39,6 +39,7 @@ const WeekStatPage = (props) => {
 							setFirstFilter={setFirstFilter}
 							setAddFilter={setAddFilter}
 							setCount={setCount}
+							firstFilter={firstFilter}
 						/>
 						{firstFilter ? (
 							count ? (

@@ -27,6 +27,10 @@ const SeachData = (props) => {
 		setMonthDate,
 		setSearchDate,
 		setOverSpeedDate,
+		associateIds,
+		spot,
+		upboundFlag,
+		firstFilter,
 	} = props;
 
 	const { Title } = Typography;
@@ -192,6 +196,12 @@ const SeachData = (props) => {
 								/>
 							</div>
 						) : null)}
+					{firstFilter && associateIds.length !== 0 && (
+						<Text type="secondary" strong style={{ marginTop: 5 }}>
+							{spot}
+							{upboundFlag ? " 진출" : " 진입"} 통합 데이터
+						</Text>
+					)}
 				</div>
 
 				<div className="search-area-input-button">
@@ -211,6 +221,9 @@ const SeachData = (props) => {
 const mapStateToProps = (state) => {
 	return {
 		camera: state.location.camera,
+		associateIds: state.locationCode.associateIds,
+		spot: state.location.spot,
+		upboundFlag: state.locationCode.upboundFlag,
 	};
 };
 const mapDispatchToProps = (dispatch) => {

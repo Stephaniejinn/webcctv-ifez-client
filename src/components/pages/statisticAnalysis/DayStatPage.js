@@ -40,7 +40,9 @@ const DayStatPage = (props) => {
 							setEndTime={setEndTime}
 							setFirstFilter={setFirstFilter}
 							setCount={setCount}
+							firstFilter={firstFilter}
 						/>
+
 						{firstFilter ? (
 							count ? (
 								<>

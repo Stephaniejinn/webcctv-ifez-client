@@ -22,6 +22,7 @@ const RealtimeStatisticPage = (props) => {
 		trafficURL,
 		setLoggedIn,
 		isMaster,
+		associateIds,
 	} = props;
 	const { Content } = Layout;
 
@@ -37,18 +38,15 @@ const RealtimeStatisticPage = (props) => {
 	const date = moment(new Date()).format("YYYY-MM-DD");
 	var currTimeStr = currTime.format("HH:mm:ss");
 
-	var camName;
-	if (camAddress.length === 0 || camera.length === 0) {
-		camName = "수인사거리-1 [하행]";
-	} else {
-		camName = camera;
-	}
-	var camCode = cameraCode.length === 0 ? "0001" : cameraCode;
+	const camCodes =
+		associateIds.length !== 0
+			? `camCodes=[${[...associateIds, cameraCode]}]`
+			: `camCode=${cameraCode}`;
 
 	useEffect(() => {
-		setEmptyData(false);
-		setTrafficTotalData([]);
-		if (camAddress.length === 0 || camera.length === 0) {
+		if (cameraCode.length !== 0) {
+			setEmptyData(false);
+			setTrafficTotalData([]);
 			axios
 				.get(`${baseURL}/locations/ICN/28110/2008001/001/cameras`, {
 					headers: {
@@ -74,11 +72,8 @@ const RealtimeStatisticPage = (props) => {
 		} else {
 			setCameraAddress(camAddress);
 			axiosAsync();
-			// console.log("camCode ", camCode);
-			// console.log("camName", camName);
-			// console.log("cameraAddress", cameraAddress);
 		}
-	}, [camCode, currTimeStr]);
+	}, [cameraCode, currTimeStr]);
 
 	useEffect(() => {
 		if (refresh) {
@@ -91,7 +86,7 @@ const RealtimeStatisticPage = (props) => {
 	const axiosAsync = () => {
 		axios
 			.get(
-				`${baseURL}${trafficURL}/daily?camCode=${camCode}&startDate=${date}&endTime=${date} ${currTimeStr}&axis=time&laneNumber=0`,
+				`${baseURL}${trafficURL}/daily?${camCodes}&startDate=${date}&endTime=${date} ${currTimeStr}&axis=time&laneNumber=0`,
 				{
 					headers: {
 						Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -101,13 +96,7 @@ const RealtimeStatisticPage = (props) => {
 			)
 			.then((res) => {
 				if (res.data.length !== 0) {
-					console.log(res.data);
 					setTrafficTotalData(res.data);
-					// setDataLastTime(
-					// 	moment(new Date(res.data[res.data.length - 1].recordTime))
-					// 		.add(15, "m")
-					// 		.format("HH:mm")
-					// );
 					setEmptyData(false);
 				} else {
 					setEmptyData(true);
@@ -131,6 +120,7 @@ const RealtimeStatisticPage = (props) => {
 				<Sider />
 				<Layout className="site-layout">
 					<Header setLoggedIn={setLoggedIn} isMaster={isMaster} />
+
 					<Content style={{ margin: "0 16px" }}>
 						<RealtimeStatUpper
 							currTime={currTime}
@@ -138,7 +128,7 @@ const RealtimeStatisticPage = (props) => {
 							setRefresh={setRefresh}
 						/>
 						<div className="realtime-statistic-video-and-graph">
-							<StatContainer camName={camName} httpAddress={cameraAddress} />
+							<StatContainer camName={camera} httpAddress={cameraAddress} />
 							<div className="realtime-statistic-graph">
 								<GeneralVisualization
 									page="REALSTATISTIC"
@@ -176,6 +166,7 @@ const mapStateToProps = (state) => {
 		cameraCode: state.locationCode.cameraCode,
 		baseURL: state.baseURL.baseURL,
 		trafficURL: state.baseURL.trafficURL,
+		associateIds: state.locationCode.associateIds,
 	};
 };
 

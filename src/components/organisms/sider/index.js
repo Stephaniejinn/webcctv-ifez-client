@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { HashLink as Link } from "react-router-hash-link";
-import { Layout, Menu, Divider, Typography } from "antd";
+import { useHistory } from "react-router-dom";
+import { Layout, Menu, Divider, Typography, Alert } from "antd";
 import {
 	FundProjectionScreenOutlined,
 	FileTextOutlined,
@@ -9,6 +10,7 @@ import {
 	PicRightOutlined,
 	FileSearchOutlined,
 } from "@ant-design/icons";
+import { connect } from "react-redux";
 
 // import logo from "../../../assets/logo/logoBlueWN.png";
 // import logoCollapsed from "../../../assets/logo/logoBlue.png";
@@ -17,7 +19,8 @@ import logoCollapsed from "../../../assets/logo/logoBlack.png";
 
 import "./style.less";
 
-const MySider = () => {
+const MySider = (props) => {
+	const { cameraCode } = props;
 	const { Sider } = Layout;
 	const { SubMenu } = Menu;
 	const { Text } = Typography;
@@ -26,6 +29,8 @@ const MySider = () => {
 
 	const [siderCollapsed, setSiderCollapsed] = useState(false);
 	const [openKeys, setOpenKeys] = useState(["statistic"]);
+
+	const history = useHistory();
 
 	// const [openKeys, setOpenKeys] = useState(() => {
 	// 	if (
@@ -39,8 +44,13 @@ const MySider = () => {
 	// 	}
 	// });
 
-	const handleClick = (key) => {
-		console.log(key);
+	const handleClick = (e) => {
+		if (cameraCode.length === 0) {
+			window.alert("위치설정 해주세요");
+			e.preventDefault();
+
+			history.push("/realtime/streaming");
+		}
 	};
 
 	const onCollapse = (collapsed) => {
@@ -83,7 +93,7 @@ const MySider = () => {
 			<Menu
 				theme="light"
 				mode="inline"
-				onClick={handleClick}
+				// onClick={handleClick}
 				defaultSelectedKeys={["/realtime/streaming"]}
 				selectedKeys={path}
 				openKeys={openKeys}
@@ -97,7 +107,9 @@ const MySider = () => {
 					key="/realtime/statistic"
 					icon={<FundProjectionScreenOutlined />}
 				>
-					<Link to="/realtime/statistic">실시간 데이터</Link>
+					<Link onClick={handleClick} to="/realtime/statistic">
+						실시간 데이터
+					</Link>
 				</Menu.Item>
 				<SubMenu
 					key="statistic"
@@ -128,4 +140,10 @@ const MySider = () => {
 	);
 };
 
-export default MySider;
+const mapStateToProps = (state) => {
+	return {
+		cameraCode: state.locationCode.cameraCode,
+	};
+};
+
+export default connect(mapStateToProps)(MySider);

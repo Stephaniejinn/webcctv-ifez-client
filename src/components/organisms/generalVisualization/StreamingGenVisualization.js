@@ -3,7 +3,6 @@ import { Spin, message } from "antd";
 import moment from "moment";
 import axios from "axios";
 import { connect } from "react-redux";
-import * as actions from "../../../redux/actions";
 
 import VisualizationCard from "../../molecules/genVisualizationCard/GenVisualizationCard";
 import VehicleRatio from "../../charts/doughnutChart/VehicleRatio";
@@ -20,6 +19,7 @@ const StreamingGeneralVisualization = (props) => {
 		baseURL,
 		trafficURL,
 		setLoggedIn,
+		associateIds,
 	} = props;
 
 	const [isLoadingTraffic, setLoadingTraffic] = useState(true);
@@ -27,6 +27,11 @@ const StreamingGeneralVisualization = (props) => {
 	const [isEmptyData, setEmptyData] = useState(false);
 	const [curStartTime, setCurStartTime] = useState("");
 	const [curEndTime, setCurEndTime] = useState("");
+
+	const camCodes =
+		associateIds.length !== 0
+			? `camCodes=[${[...associateIds, realtimeCamCode]}]`
+			: `camCode=${realtimeCamCode}`;
 
 	useEffect(() => {
 		setLoadingTraffic(true);
@@ -38,7 +43,7 @@ const StreamingGeneralVisualization = (props) => {
 	const getTrafficData = () => {
 		axios
 			.get(
-				`${baseURL}${trafficURL}/daily?camCode=${realtimeCamCode}&startDate=${startDate}&endTime=${endTime} ${currentTime}&axis=time&laneNumber=0`,
+				`${baseURL}${trafficURL}/daily?${camCodes}&startDate=${startDate}&endTime=${endTime} ${currentTime}&axis=time&laneNumber=0`,
 				{
 					headers: {
 						Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -48,6 +53,7 @@ const StreamingGeneralVisualization = (props) => {
 			)
 			.then((res) => {
 				if (res.data.length !== 0) {
+					console.log("data", res.data);
 					var tempStartTime = moment(
 						res.data[res.data.length - 1].recordTime
 					).format("HH:mm");
@@ -129,19 +135,8 @@ const mapStateToProps = (state) => {
 		cameraCode: state.locationCode.cameraCode,
 		baseURL: state.baseURL.baseURL,
 		trafficURL: state.baseURL.trafficURL,
+		associateIds: state.locationCode.associateIds,
 	};
 };
-const mapDispatchToProps = (dispatch) => {
-	return {
-		getLocationCodeInfo: () => {
-			dispatch(actions.getLocationCode());
-		},
-		getBaseURL: () => {
-			dispatch(actions.getURL());
-		},
-	};
-};
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(StreamingGeneralVisualization);
+
+export default connect(mapStateToProps)(StreamingGeneralVisualization);

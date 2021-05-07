@@ -17,6 +17,7 @@ const TimeVisualization = (props) => {
 		baseURL,
 		trafficURL,
 		setLoggedIn,
+		associateIds,
 	} = props;
 	const { TabPane } = Tabs;
 
@@ -28,14 +29,18 @@ const TimeVisualization = (props) => {
 	const [activeVisualKey, setActiveVisualKey] = useState("1");
 
 	const [trafficTotalData, setTrafficTotalData] = useState([]);
+	const camCodes =
+		associateIds.length !== 0
+			? `camCodes=[${[...associateIds, cameraCode]}]`
+			: `camCode=${cameraCode}`;
 
 	const periodURL =
 		period === "DAY" ? "/daily" : period === "WEEK" ? "/weekly" : "/monthly";
 
 	const currentURL =
 		period === "DAY"
-			? `${baseURL}${trafficURL}${periodURL}?camCode=${cameraCode}&startDate=${startDate}&endTime=${endTime} 23:59:59&axis=time&laneNumber=${currentLaneNum}`
-			: `${baseURL}${trafficURL}${periodURL}?camCode=${cameraCode}&startDate=${startDate}&endTime=${endTime} 23:59:59&axis=time&laneNumber=${currentLaneNum}&weekOption=ALL`;
+			? `${baseURL}${trafficURL}${periodURL}?${camCodes}&startDate=${startDate}&endTime=${endTime} 23:59:59&axis=time&laneNumber=${currentLaneNum}`
+			: `${baseURL}${trafficURL}${periodURL}?${camCodes}&startDate=${startDate}&endTime=${endTime} 23:59:59&axis=time&laneNumber=${currentLaneNum}&weekOption=ALL`;
 
 	useEffect(() => {
 		var tabLaneNum = ["구간 전체"];
@@ -61,6 +66,7 @@ const TimeVisualization = (props) => {
 			})
 			.then((res) => {
 				if (res.data.length !== 0) {
+					console.log(res.data);
 					setTrafficTotalData(res.data);
 					setLoadingTrafficTotal(false);
 					setEmptyData(false);
@@ -69,6 +75,7 @@ const TimeVisualization = (props) => {
 				}
 			})
 			.catch((err) => {
+				console.log(err.response);
 				if (err.response.status === 400) {
 					message.warning("해당 기간 시간 별 데이터가 없습니다");
 				} else if (err.response.status === 401) {
@@ -135,6 +142,7 @@ const mapStateToProps = (state) => {
 		camLanes: state.locationCode.camLanes,
 		baseURL: state.baseURL.baseURL,
 		trafficURL: state.baseURL.trafficURL,
+		associateIds: state.locationCode.associateIds,
 	};
 };
 

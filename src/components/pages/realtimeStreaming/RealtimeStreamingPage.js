@@ -15,30 +15,53 @@ import "./style.less";
 const RealtimeStreamingPage = (props) => {
 	const { Content } = Layout;
 	const { setLoggedIn, isMaster, baseURL } = props;
+	// const [address, setAddress] = useState(new Set());
+	// const [cameraName, setCameraName] = useState(new Set());
 	const [address, setAddress] = useState([]);
+	const [cameraName, setCameraName] = useState([]);
+
 	const date = moment(new Date()).format("YYYY-MM-DD");
 	const currentTime = moment(new Date()).format("HH:mm:ss");
-	var addArr = [];
-
+	// var addArr = [];
+	// var camName = [];
+	var addArr = [
+		"ICN/28185/2348176/039/070",
+		"ICN/28185/2348176/039/071",
+		"ICN/28185/2348176/039/072",
+		"ICN/28185/3152044/040/073",
+		"ICN/28185/3152045/041/074",
+	];
+	var camName = [
+		"송도4교 진출",
+		"송도4교 진입 1",
+		"송도4교 진입 2",
+		"방범 385",
+		"방범 381",
+	];
 	useEffect(() => {
-		axios
-			.get(`${baseURL}/locations/ICN/28110/2008001/001/cameras`, {
-				headers: {
-					Authorization: `Bearer ${localStorage.getItem("token")}`,
-					Cache: "No-cache",
-				},
-			})
-			.then((res) => {
-				if (res.data.length !== 0) {
-					res.data.forEach((address) => {
-						addArr.push(address.httpStreamAddr);
-					});
-				}
-				setAddress(addArr);
-			})
-			.catch((err) => {
-				console.log(err.response);
-			});
+		// axios
+		// 	.get(`${baseURL}/locations/ICN/28110/2008001/001/cameras`, {
+		// 		headers: {
+		// 			Authorization: `Bearer ${localStorage.getItem("token")}`,
+		// 			Cache: "No-cache",
+		// 		},
+		// 	})
+		// 	.then((res) => {
+		// 		if (res.data.length !== 0) {
+		// 			console.log(res.data);
+		// 			res.data.forEach((data) => {
+		// 				addArr.push(data.httpStreamAddr);
+		// 				camName.push(data.camName);
+		// 			});
+		// 		}
+		// 		setAddress(addArr);
+		// 		setCameraName(camName);
+		// 	})
+		// 	.catch((err) => {
+		// 		console.log(err.response);
+		// 	});
+		setAddress(addArr);
+		setCameraName(camName);
 	}, []);
 
 	return (
@@ -55,31 +78,32 @@ const RealtimeStreamingPage = (props) => {
 						<div className="video-container-4">
 							{address[0] && (
 								<VideoContainer
-									camName="수인사거리-1 [하행]"
-									// httpAddress="https://globalbridge.synology.me:4000/m3u8VideoStream.m3u8"
+									camName={cameraName[0]}
 									httpAddress={address[0]}
-									date={date}
-									currentTime={currentTime}
-									realtimeCamCode="0001"
-									setLoggedIn={setLoggedIn}
 								/>
 							)}
 							{address[1] && (
 								<VideoContainer
-									camName="수인사거리-2 [하행]"
+									camName={cameraName[1]}
 									httpAddress={address[1]}
-									date={date}
-									currentTime={currentTime}
-									realtimeCamCode="0001"
 								/>
 							)}
 							{address[2] && (
 								<VideoContainer
-									camName="수인사거리-3 [하행]"
+									camName={cameraName[2]}
 									httpAddress={address[2]}
-									date={date}
-									currentTime={currentTime}
-									realtimeCamCode="0001"
+								/>
+							)}
+							{address[3] && (
+								<VideoContainer
+									camName={cameraName[3]}
+									httpAddress={address[3]}
+								/>
+							)}
+							{address[4] && (
+								<VideoContainer
+									camName={cameraName[4]}
+									httpAddress={address[4]}
 								/>
 							)}
 						</div>

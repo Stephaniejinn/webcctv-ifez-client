@@ -46,8 +46,10 @@ const App = (props) => {
 			})
 			.catch((err) => {
 				console.log(err);
-				if (localStorage.getItem("username")) {
-					message.warning("로그아웃 되었습니다");
+				if (err.response.status === 401) {
+					if (localStorage.getItem("username")) {
+						message.warning("로그아웃 되었습니다");
+					}
 				}
 				setLoading(false);
 			});
@@ -81,6 +83,7 @@ const App = (props) => {
 									/>
 								)}
 							/>
+
 							<Route
 								path="/realtime/statistic"
 								render={() => (
@@ -142,10 +145,6 @@ const App = (props) => {
 								)}
 							/>
 							<Redirect path="*" to="/realtime/streaming" />
-							{/* <Route
-						path="/comparison"
-						render={() => <DataComparisonPage setLoggedIn={setLoggedIn} />}
-					/> */}
 						</Switch>
 					) : (
 						<Switch>
