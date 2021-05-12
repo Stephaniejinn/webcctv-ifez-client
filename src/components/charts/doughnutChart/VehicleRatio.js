@@ -40,7 +40,7 @@ const VehicleRatio = (props) => {
 				data["carVolume"] += eachData["carVolume"];
 				data["mBusVolume"] += eachData["mBusVolume"];
 				data["mTruckVolume"] += eachData["mTruckVolume"];
-				data["motorVolume"] = +eachData["motorVolume"];
+				data["motorVolume"] += eachData["motorVolume"];
 			});
 		} else {
 			data = trafficData[0];

@@ -30,7 +30,6 @@ const MonthPeakTime = (props) => {
 			TotalData.push(temp);
 		});
 		setData(TotalData);
-		console.log(TotalData);
 		setLoading(false);
 	};
 

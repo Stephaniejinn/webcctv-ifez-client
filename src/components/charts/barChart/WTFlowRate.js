@@ -29,7 +29,6 @@ const WTPHF = (props) => {
 	}, [trafficTotalData, activeVisualKey]);
 
 	const parseTotalData = () => {
-		console.log("count 일간 시간별 첨두유율 parse");
 		var TotalData = [];
 
 		trafficTotalData.slice(3).forEach((TrafficData) => {

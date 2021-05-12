@@ -32,8 +32,6 @@ const RealtimeStatisticPage = (props) => {
 		moment(new Date()).subtract(1, "second")
 	);
 	const [refresh, setRefresh] = useState(false);
-	const [cameraAddress, setCameraAddress] = useState("");
-	// const [dataLastTime, setDataLastTime] = useState("");
 
 	const date = moment(new Date()).format("YYYY-MM-DD");
 	var currTimeStr = currTime.format("HH:mm:ss");
@@ -44,35 +42,9 @@ const RealtimeStatisticPage = (props) => {
 			: `camCode=${cameraCode}`;
 
 	useEffect(() => {
-		if (cameraCode.length !== 0) {
-			setEmptyData(false);
-			setTrafficTotalData([]);
-			axios
-				.get(`${baseURL}/locations/ICN/28110/2008001/001/cameras`, {
-					headers: {
-						Authorization: `Bearer ${localStorage.getItem("token")}`,
-						Cache: "No-cache",
-					},
-				})
-				.then((res) => {
-					if (res.data.length !== 0) {
-						setCameraAddress(res.data[0].httpStreamAddr);
-						axiosAsync();
-					}
-				})
-				.catch((err) => {
-					console.log(err.response);
-					if (err.response.status === 401) {
-						message.warning(
-							"로그인 정보가 유효하지 않습니다. 다시 로그인해주세요"
-						);
-						setLoggedIn(false);
-					}
-				});
-		} else {
-			setCameraAddress(camAddress);
-			axiosAsync();
-		}
+		setEmptyData(false);
+		setTrafficTotalData([]);
+		axiosAsync();
 	}, [cameraCode, currTimeStr]);
 
 	useEffect(() => {
@@ -107,7 +79,6 @@ const RealtimeStatisticPage = (props) => {
 				setRefresh(false);
 			})
 			.catch((err) => {
-				console.log(err.response);
 				setEmptyData(true);
 				if (err.response.status === 401) {
 					setLoggedIn(false);
@@ -128,7 +99,7 @@ const RealtimeStatisticPage = (props) => {
 							setRefresh={setRefresh}
 						/>
 						<div className="realtime-statistic-video-and-graph">
-							<StatContainer camName={camera} httpAddress={cameraAddress} />
+							<StatContainer camName={camera} httpAddress={camAddress} />
 							<div className="realtime-statistic-graph">
 								<GeneralVisualization
 									page="REALSTATISTIC"

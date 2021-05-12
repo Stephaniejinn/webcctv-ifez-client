@@ -19,7 +19,6 @@ const CntLine = (props) => {
 	}, [trafficTotalData, activeVisualKey]);
 
 	const parseTotalData = () => {
-		console.log("count 통행량 parse");
 		var cntTotalData = [];
 
 		trafficTotalData.slice(1).forEach((TrafficData) => {

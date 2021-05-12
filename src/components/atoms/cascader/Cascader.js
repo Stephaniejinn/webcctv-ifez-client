@@ -14,6 +14,8 @@ const MyCascader = (props) => {
 		baseURL,
 		isDisabled,
 		placeholdertxt,
+		setCamNameAdd,
+		setLoadingNameAdd,
 	} = props;
 
 	const [parsedOptions, setParsedOptions] = useState([]);
@@ -30,8 +32,8 @@ const MyCascader = (props) => {
 	var cameraAssociateIds = {};
 	var cameraOCR = {};
 	var cameraDirection = {};
-	// var totalAddres = new Set();
-	// var totalCameraName = new Set();
+	var cameraNameAddress = {};
+
 	if (props.city === "" || displayLocation === false) {
 		var defaultOption = [];
 	} else {
@@ -70,8 +72,10 @@ const MyCascader = (props) => {
 					setCamOCR(cameraOCR);
 					setCamAssociateIds(cameraAssociateIds);
 					setCamDirection(cameraDirection);
-					// setAddress(totalAddres);
-					// setCameraName(totalCameraName);
+					if (setCamNameAdd) {
+						setCamNameAdd(cameraNameAddress);
+						setLoadingNameAdd(false);
+					}
 				});
 			})
 			.catch((err) => {
@@ -248,8 +252,9 @@ const MyCascader = (props) => {
 						cameraAssociateIds[camCode] = "";
 					}
 					cameraDirection[camCode] = upboundFlag;
-					// totalCameraName.add(camName);
-					// totalAddres.add(httpStreamAddr);
+					if (setCamNameAdd) {
+						cameraNameAddress[camCode] = [cameraTemp["label"], httpStreamAddr];
+					}
 				});
 			})
 			.catch((err) => {
@@ -258,7 +263,6 @@ const MyCascader = (props) => {
 	};
 
 	const onChange = (value, selectedOptions) => {
-		console.log(value, selectedOptions);
 		const optionVals = selectedOptions.map((item) => item.label);
 		const optionKeys = ["city", "district", "road", "spot", "camera"];
 		const selectedLocation = optionVals.reduce((obj, item, idx) => {
@@ -305,7 +309,6 @@ const MyCascader = (props) => {
 				onChange={onChange}
 				placeholder={placeholdertxt ? placeholdertxt : "위치 선택"}
 				showSearch={{ filter }}
-				// onPopupVisibleChange={getOptions}
 				options={parsedOptions}
 				defaultValue={defaultOption}
 				disabled={isDisabled && isDisabled}

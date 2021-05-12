@@ -7,13 +7,11 @@ const SingleRadio = (props) => {
 	const { page, multiSelected } = props;
 	const [value, setValue] = useState(1);
 	const onChange = (e) => {
-		console.log("radio checked", e.target.value);
 		setValue(e.target.value);
 	};
 	return (
 		<>
 			<Radio.Group onChange={onChange} value={value} defaultValue={1}>
-				{console.log(multiSelected)}
 				<Radio value={1} disabled={multiSelected}>
 					전체
 				</Radio>

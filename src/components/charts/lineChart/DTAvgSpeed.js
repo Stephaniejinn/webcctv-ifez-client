@@ -19,7 +19,6 @@ const DTAvgSpeed = (props) => {
 	}, [trafficTotalData, activeVisualKey]);
 
 	const parseTotalData = () => {
-		console.log("count 일간 평균속도 parse");
 		var avgSpeedTotalData = [];
 
 		trafficTotalData.slice(1).forEach((TrafficData) => {

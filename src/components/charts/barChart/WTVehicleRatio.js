@@ -29,7 +29,6 @@ const VehicleRatio = (props) => {
 	}, [trafficTotalData, activeVisualKey]);
 
 	const parseTotalData = () => {
-		console.log("count count parse");
 		var carRatio = [];
 		var busRatio = [];
 		var truckRatio = [];

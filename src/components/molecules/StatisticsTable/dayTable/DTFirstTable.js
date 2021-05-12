@@ -347,7 +347,6 @@ const DTFisrtTable = (props) => {
 	}
 
 	const axiosData = () => {
-		console.log("count table axios");
 		var TotalData = [];
 		trafficTotalData.forEach((eachData, index) => {
 			const {

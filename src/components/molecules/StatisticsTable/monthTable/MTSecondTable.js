@@ -82,7 +82,6 @@ const MTSecondTable = (props) => {
 		},
 	];
 	const parseData = () => {
-		console.log("count table axios");
 		trafficTotalData.forEach((eachData, index) => {
 			const {
 				recordDate,
@@ -113,9 +112,8 @@ const MTSecondTable = (props) => {
 			dataTemp["totalDayNightRatio"] = totalVehicleDayNightRatio;
 			dataTemp["totalPHF"] = totalVehiclePeakHourFactor;
 			dataTemp["totalPeekHourCnt"] = totalVehiclePeakHourFlowRate;
-			dataTemp[
-				"totalVehiclePeakHourConcentrationRatio"
-			] = totalVehiclePeakHourConcentrationRatio;
+			dataTemp["totalVehiclePeakHourConcentrationRatio"] =
+				totalVehiclePeakHourConcentrationRatio;
 
 			dataTemp["carDayNightRatio"] = carDayNightRatio;
 			dataTemp["busDayNightRatio"] = mBusDayNightRatio;

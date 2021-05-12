@@ -31,14 +31,10 @@ const WMFlowRate = (props) => {
 	}, [trafficTotalData, activeVisualKey]);
 
 	const parseTotalData = () => {
-		console.log("count 일간 시간별 PHF parse");
 		var TotalData = [];
 		trafficTotalData.slice(3).forEach((TrafficData) => {
-			const {
-				weekOption,
-				recordDate,
-				totalVehiclePeakHourFlowRate,
-			} = TrafficData;
+			const { weekOption, recordDate, totalVehiclePeakHourFlowRate } =
+				TrafficData;
 
 			const temp = {};
 			if (weekOption) {

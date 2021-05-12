@@ -92,7 +92,6 @@ const WTSecondTable = (props) => {
 		},
 	];
 	const parseData = () => {
-		console.log("count table axios");
 		trafficTotalData.forEach((eachData, index) => {
 			const {
 				weekOption,
@@ -112,9 +111,8 @@ const WTSecondTable = (props) => {
 			dataTemp["totalDayNightRatio"] = totalVehicleDayNightRatio;
 			dataTemp["totalPHF"] = totalVehiclePeakHourFactor;
 			dataTemp["totalPeekHourCnt"] = totalVehiclePeakHourFlowRate;
-			dataTemp[
-				"totalVehiclePeakHourConcentrationRatio"
-			] = totalVehiclePeakHourConcentrationRatio;
+			dataTemp["totalVehiclePeakHourConcentrationRatio"] =
+				totalVehiclePeakHourConcentrationRatio;
 
 			dataTemp["carDayNightRatio"] = carDayNightRatio;
 			dataTemp["busDayNightRatio"] = mBusDayNightRatio;

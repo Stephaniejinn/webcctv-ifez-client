@@ -20,7 +20,6 @@ const SearchComparison = ({
 	setSelectedLocationCode2,
 }) => {
 	const handlePeriodChange = (value) => {
-		console.log(`selected ${value}`);
 		setPeriod(value);
 	};
 

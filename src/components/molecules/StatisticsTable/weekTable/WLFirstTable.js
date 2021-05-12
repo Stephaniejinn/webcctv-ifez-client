@@ -173,7 +173,6 @@ const WLFisrtTable = (props) => {
 	];
 
 	const axiosData = () => {
-		console.log("count 주간 차선별 1차데이블 parse");
 		trafficTotalData.forEach((eachData, index) => {
 			const {
 				laneNumber,

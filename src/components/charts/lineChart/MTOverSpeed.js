@@ -19,7 +19,6 @@ const OverSpeedCnt = (props) => {
 	}, [trafficTotalData, activeVisualKey]);
 
 	const parseTotalData = () => {
-		console.log("count 일간 과속 parse");
 		var cntTotalData = [];
 
 		trafficTotalData.slice(3).forEach((TrafficData) => {

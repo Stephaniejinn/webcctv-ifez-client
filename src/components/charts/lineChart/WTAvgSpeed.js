@@ -29,7 +29,6 @@ const WTAvgSpeed = (props) => {
 	}, [trafficTotalData, activeVisualKey]);
 
 	const parseTotalData = () => {
-		console.log("count 주간 평균속도 그래프 parse");
 		var TotalData = [];
 
 		trafficTotalData.slice(3).forEach((TrafficData) => {

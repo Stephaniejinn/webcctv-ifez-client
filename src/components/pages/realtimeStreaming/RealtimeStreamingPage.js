@@ -15,54 +15,47 @@ import "./style.less";
 const RealtimeStreamingPage = (props) => {
 	const { Content } = Layout;
 	const { setLoggedIn, isMaster, baseURL } = props;
-	// const [address, setAddress] = useState(new Set());
-	// const [cameraName, setCameraName] = useState(new Set());
-	const [address, setAddress] = useState([]);
-	const [cameraName, setCameraName] = useState([]);
 
 	const date = moment(new Date()).format("YYYY-MM-DD");
 	const currentTime = moment(new Date()).format("HH:mm:ss");
-	// var addArr = [];
-	// var camName = [];
-	var addArr = [
-		"ICN/28185/2348176/039/070",
-		"ICN/28185/2348176/039/071",
-		"ICN/28185/2348176/039/072",
-		"ICN/28185/3152044/040/073",
-		"ICN/28185/3152045/041/074",
-	];
-	var camName = [
-		"송도4교 진출",
-		"송도4교 진입 1",
-		"송도4교 진입 2",
-		"방범 385",
-		"방범 381",
-	];
+
+	const [camNameAdd, setCamNameAdd] = useState({});
+	const [isLoadingNameAdd, setLoadingNameAdd] = useState(true);
+	const [currNameAdd, setCurrNameAdd] = useState({});
+	const [isCurrLoading, setCurrLoading] = useState(true);
+
+	// var addArr = [
+	// 	"http://10.112.113.182:4000/api/streams/0072",
+	// 	"http://10.112.113.182:4000/api/streams/0071",
+	// 	"http://10.112.113.182:4000/api/streams/0070",
+	// 	"http://10.112.113.182:4000/api/streams/0073",
+	// 	"http://10.112.113.182:4000/api/streams/0074",
+	// ];
+	// var camName = [
+	// 	"송도4교 진입 2",
+	// 	"송도4교 진입 1",
+	// 	"송도4교 진출",
+	// 	"방범 381",
+	// 	"방범 385",
+	// ];
+	var timer;
+	const spinTimer = () => {
+		setCurrLoading(true);
+		if (timer) {
+			clearTimeout(timer);
+		}
+		timer = setTimeout(() => {
+			setCurrNameAdd(camNameAdd);
+			setCurrLoading(false);
+		}, 200);
+		return () => clearTimeout(timer);
+	};
+
 	useEffect(() => {
-		// axios
-		// 	.get(`${baseURL}/locations/ICN/28110/2008001/001/cameras`, {
-		// 		headers: {
-		// 			Authorization: `Bearer ${localStorage.getItem("token")}`,
-		// 			Cache: "No-cache",
-		// 		},
-		// 	})
-		// 	.then((res) => {
-		// 		if (res.data.length !== 0) {
-		// 			console.log(res.data);
-		// 			res.data.forEach((data) => {
-		// 				addArr.push(data.httpStreamAddr);
-		// 				camName.push(data.camName);
-		// 			});
-		// 		}
-		// 		setAddress(addArr);
-		// 		setCameraName(camName);
-		// 	})
-		// 	.catch((err) => {
-		// 		console.log(err.response);
-		// 	});
-		setAddress(addArr);
-		setCameraName(camName);
-	}, []);
+		if (!isLoadingNameAdd) {
+			spinTimer();
+		}
+	}, [isLoadingNameAdd]);
 
 	return (
 		<div className="realtime-streaming-page">
@@ -73,39 +66,71 @@ const RealtimeStreamingPage = (props) => {
 					<Content style={{ margin: "0 16px" }}>
 						<Breadcrumb pageHierarchy={["대시보드", "실시간 영상"]} />
 						<div className="search-input">
-							<SearchInput />
+							<SearchInput
+								setCamNameAdd={setCamNameAdd}
+								setLoadingNameAdd={setLoadingNameAdd}
+							/>
 						</div>
 						<div className="video-container-4">
-							{address[0] && (
+							{!isCurrLoading &&
+								Object.getOwnPropertyNames(currNameAdd).map(function (key) {
+									return (
+										<VideoContainer
+											camName={currNameAdd[key][0]}
+											httpAddress={currNameAdd[key][1]}
+											date={date}
+											currentTime={currentTime}
+											realtimeCamCode={key}
+											setLoggedIn={setLoggedIn}
+										/>
+									);
+								})}
+							{/* {addArr[0] && (
 								<VideoContainer
-									camName={cameraName[0]}
-									httpAddress={address[0]}
+									camName={camName[0]}
+									httpAddress={addArr[0]}
+									date={date}
+									currentTime={currentTime}
+									realtimeCamCode="0001"
+									setLoggedIn={setLoggedIn}
 								/>
 							)}
-							{address[1] && (
+							{addArr[1] && (
 								<VideoContainer
-									camName={cameraName[1]}
-									httpAddress={address[1]}
+									camName={camName[1]}
+									httpAddress={addArr[1]}
+									date={date}
+									currentTime={currentTime}
+									realtimeCamCode="0001"
 								/>
 							)}
-							{address[2] && (
+							{addArr[2] && (
 								<VideoContainer
-									camName={cameraName[2]}
-									httpAddress={address[2]}
+									camName={camName[2]}
+									httpAddress={addArr[2]}
+									date={date}
+									currentTime={currentTime}
+									realtimeCamCode="0001"
 								/>
 							)}
-							{address[3] && (
+							{addArr[3] && (
 								<VideoContainer
-									camName={cameraName[3]}
-									httpAddress={address[3]}
+									camName={camName[3]}
+									httpAddress={addArr[3]}
+									date={date}
+									currentTime={currentTime}
+									realtimeCamCode="0001"
 								/>
 							)}
-							{address[4] && (
+							{addArr[4] && (
 								<VideoContainer
-									camName={cameraName[4]}
-									httpAddress={address[4]}
+									camName={camName[4]}
+									httpAddress={addArr[4]}
+									date={date}
+									currentTime={currentTime}
+									realtimeCamCode="0001"
 								/>
-							)}
+							)} */}
 						</div>
 					</Content>
 				</Layout>

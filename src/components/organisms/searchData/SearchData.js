@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Typography, Button, Radio } from "antd";
+import { Typography, Button, Radio, message } from "antd";
 import { connect } from "react-redux";
 import * as actions from "../../../redux/actions";
 
@@ -135,8 +135,7 @@ const SeachData = (props) => {
 				}
 			}
 		} else {
-			console.log("need to select start time, end time, location");
-			console.log(tempStartDate);
+			message.warning("카메라 위치, 시작일, 종료일 선택 해주세요");
 		}
 	};
 

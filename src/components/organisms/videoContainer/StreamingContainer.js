@@ -6,7 +6,6 @@ import { Card, Typography } from "antd";
 // import * as actions from "../../../actions";
 
 import Video from "../../molecules/video/Video";
-import StreamingGenVisualization from "../generalVisualization/StreamingGenVisualization";
 
 import "./style.less";
 

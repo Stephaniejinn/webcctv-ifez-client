@@ -173,7 +173,6 @@ const DLFisrtTable = (props) => {
 	];
 
 	const axiosData = () => {
-		console.log("count 일간 차선별 1차데이블 parse");
 		trafficTotalData.forEach((eachData, index) => {
 			const {
 				laneNumber,

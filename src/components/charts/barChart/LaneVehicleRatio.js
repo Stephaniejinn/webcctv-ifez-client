@@ -17,7 +17,6 @@ const VehicleRatio = (props) => {
 	}, [trafficTotalData, activeVisualKey]);
 
 	const parseTotalData = () => {
-		console.log("count 일간 차선별 차종비율 parse");
 		var carRatio = [];
 		var busRatio = [];
 		var truckRatio = [];

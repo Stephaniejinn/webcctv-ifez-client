@@ -12,7 +12,6 @@ const MyBidirectionalBar = (props) => {
 			setLoading(true);
 			setData([]);
 			parseTotalData();
-			console.log(trafficTotalData);
 		}
 	}, [trafficTotalData, activeVisualKey]);
 

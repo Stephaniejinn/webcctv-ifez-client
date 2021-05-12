@@ -46,9 +46,11 @@ const App = (props) => {
 			})
 			.catch((err) => {
 				console.log(err);
-				if (err.response.status === 401) {
-					if (localStorage.getItem("username")) {
-						message.warning("로그아웃 되었습니다");
+				if (err.response) {
+					if (err.response.status === 401) {
+						if (localStorage.getItem("username")) {
+							message.warning("로그아웃 되었습니다");
+						}
 					}
 				}
 				setLoading(false);

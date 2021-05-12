@@ -110,7 +110,6 @@ const DTSecondTable = (props) => {
 	];
 
 	const parseData = () => {
-		console.log("count 일간 2차 axios");
 		if (trafficTotalData.length !== 0) {
 			const trafficData = trafficTotalData[0];
 			data[0]["total"] = trafficData["totalVehicleDaytimeVolume"];

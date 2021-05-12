@@ -19,7 +19,6 @@ const OverSpeedCnt = (props) => {
 	}, [trafficTotalData, activeVisualKey]);
 
 	const parseTotalData = () => {
-		console.log("count 일간 차선별 과속 parse");
 		var cntCar = [];
 		var cntBus = [];
 		var cntTruck = [];

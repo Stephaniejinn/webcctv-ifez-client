@@ -11,8 +11,6 @@ const LoginCard = (props) => {
 
 	const login = (values) => {
 		const { username, password } = values;
-		console.log(username, password);
-
 		axios
 			.post(
 				`${baseURL}/auth/tokens`,
@@ -28,7 +26,6 @@ const LoginCard = (props) => {
 				}
 			)
 			.then((res) => {
-				console.log(res);
 				const { jwt } = res.data;
 				window.localStorage.setItem("token", jwt);
 				window.localStorage.setItem("username", username);
@@ -48,7 +45,6 @@ const LoginCard = (props) => {
 				},
 			})
 			.then((res) => {
-				console.log(res);
 				window.localStorage.setItem("affiliate", res.data.affiliate);
 				setLoggedIn(true);
 			})

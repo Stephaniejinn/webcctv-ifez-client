@@ -9,7 +9,12 @@ import MyCascader from "../cascader/Cascader";
 import "./style.less";
 
 const CascaderWButton = (props) => {
-	const { setLocationInfo, setLocationCodeInfo } = props;
+	const {
+		setLocationInfo,
+		setLocationCodeInfo,
+		setCamNameAdd,
+		setLoadingNameAdd,
+	} = props;
 	const [selectedLocation, setSelectedLocation] = useState([]);
 	const [selectedLocationCode, setSelectedLocationCode] = useState([]);
 	const [locationChange, setLocationChange] = useState(false);
@@ -36,6 +41,8 @@ const CascaderWButton = (props) => {
 				setSelectedLocation={setSelectedLocation}
 				setSelectedLocationCode={setSelectedLocationCode}
 				setLocationChange={setLocationChange}
+				setCamNameAdd={setCamNameAdd}
+				setLoadingNameAdd={setLoadingNameAdd}
 			/>
 			<Button size="large" type="primary" onClick={handleSearch}>
 				검색

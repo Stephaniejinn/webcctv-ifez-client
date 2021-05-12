@@ -15,7 +15,6 @@ const GeneralAvgSpeed = (props) => {
 	}, [trafficData]);
 
 	const parseTotalData = () => {
-		console.log("count 일간 시간별 PHF parse");
 		var TotalData = [
 			{ type: "승용차", value: 0 },
 			{ type: "버스", value: 0 },

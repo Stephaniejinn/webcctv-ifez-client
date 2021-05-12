@@ -30,15 +30,11 @@ const WTConcentrationRatio = (props) => {
 	}, [trafficTotalData, activeVisualKey]);
 
 	const parseTotalData = () => {
-		console.log("count 일간 차선별 통행량 parse");
 		var TotalData = [];
 
 		trafficTotalData.slice(3).forEach((TrafficData) => {
-			const {
-				weekOption,
-				recordDate,
-				totalVehiclePeakHourConcentrationRatio,
-			} = TrafficData;
+			const { weekOption, recordDate, totalVehiclePeakHourConcentrationRatio } =
+				TrafficData;
 
 			const temp = {};
 

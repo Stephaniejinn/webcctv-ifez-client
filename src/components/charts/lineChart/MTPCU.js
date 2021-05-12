@@ -18,7 +18,6 @@ const MTPCULine = (props) => {
 	}, [trafficTotalData, activeVisualKey]);
 
 	const parseTotalData = () => {
-		console.log("count 일간 PCU parse");
 		var PCUTotalData = [];
 
 		trafficTotalData.slice(3).forEach((TrafficData) => {

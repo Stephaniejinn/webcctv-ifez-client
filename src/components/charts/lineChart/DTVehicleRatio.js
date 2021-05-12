@@ -24,7 +24,6 @@ const VehicleRatio = (props) => {
 	}, [trafficTotalData, activeVisualKey]);
 
 	const parseTotalData = () => {
-		console.log("count 일간 차종비율 parse");
 		var TotalData = [];
 
 		trafficTotalData.slice(1).forEach((TrafficData) => {
