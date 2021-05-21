@@ -6,7 +6,8 @@ import SearchInput from "../../atoms/cascaderBtn/CascaderBtn";
 
 import "./style.less";
 
-const SearchDrawer = () => {
+const SearchDrawer = (props) => {
+	const { setLoggedIn } = props;
 	const [drawerVisible, setDrawerVisible] = useState(false);
 
 	const showDrawer = () => {
@@ -33,7 +34,7 @@ const SearchDrawer = () => {
 					getContainer={false}
 					style={{ position: "absolute" }}
 				>
-					<SearchInput />
+					<SearchInput setLoggedIn={setLoggedIn} />
 				</Drawer>
 			</div>
 		</div>

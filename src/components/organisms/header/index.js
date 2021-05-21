@@ -4,7 +4,7 @@ import moment from "moment";
 import "moment-timezone";
 import { Layout, Typography, Divider } from "antd";
 
-import logo from "../../../assets/logo/logoBlackWN.png";
+import logo from "../../../assets/logo/originalLogo.png";
 import Avatar from "../../molecules/avatar/Avatar";
 
 import "./style.less";

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Spin } from "antd";
 import { Line } from "@ant-design/charts";
-import moment from "moment";
 
 const WeekPeakTime = (props) => {
 	const { activeVisualKey, trafficTotalData } = props;
@@ -34,9 +33,12 @@ const WeekPeakTime = (props) => {
 		trafficTotalData.slice(3).forEach((TrafficData) => {
 			const { weekOption, totalVehiclePeak15MinuteTime } = TrafficData;
 			let temp = {};
+			const tempMinute = new Date(totalVehiclePeak15MinuteTime).getMinutes();
+
 			temp["date"] = WeekKey[weekOption];
 			temp["value"] = new Date(totalVehiclePeak15MinuteTime).getHours();
-			temp["test"] = new Date(totalVehiclePeak15MinuteTime).getMinutes();
+			temp["minute"] =
+				tempMinute === 0 ? `${tempMinute}${tempMinute}` : tempMinute;
 			TotalData.push(temp);
 		});
 		setData(TotalData);
@@ -51,7 +53,7 @@ const WeekPeakTime = (props) => {
 
 		label: {
 			formatter: function formatter(v) {
-				let timeStr = v["value"] + ":" + v["test"];
+				let timeStr = v["value"] + ":" + v["minute"];
 				return ""
 					.concat(timeStr)
 					.replace(/\d{1,3}(?=(\d{3})+$)/g, function (s) {

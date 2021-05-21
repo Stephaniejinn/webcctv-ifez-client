@@ -97,6 +97,7 @@ const RealtimeStatisticPage = (props) => {
 							currTime={currTime}
 							setCurrTime={setCurrTime}
 							setRefresh={setRefresh}
+							setLoggedIn={setLoggedIn}
 						/>
 						<div className="realtime-statistic-video-and-graph">
 							<StatContainer camName={camera} httpAddress={camAddress} />

@@ -12,10 +12,10 @@ import {
 } from "@ant-design/icons";
 import { connect } from "react-redux";
 
-// import logo from "../../../assets/logo/logoBlueWN.png";
-// import logoCollapsed from "../../../assets/logo/logoBlue.png";
-import logo from "../../../assets/logo/logoBlackWN.png";
-import logoCollapsed from "../../../assets/logo/logoBlack.png";
+// import logo from "../../../assets/logo/logoBlackWN.png";
+// import logoCollapsed from "../../../assets/logo/logoBlack.png";
+import logo from "../../../assets/logo/originalLogo.png";
+import logoCollapsed from "../../../assets/logo/originalLogoCollapsed.png";
 
 import "./style.less";
 

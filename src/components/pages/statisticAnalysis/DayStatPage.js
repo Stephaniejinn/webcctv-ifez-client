@@ -41,6 +41,7 @@ const DayStatPage = (props) => {
 							setFirstFilter={setFirstFilter}
 							setCount={setCount}
 							firstFilter={firstFilter}
+							setLoggedIn={setLoggedIn}
 						/>
 
 						{firstFilter ? (

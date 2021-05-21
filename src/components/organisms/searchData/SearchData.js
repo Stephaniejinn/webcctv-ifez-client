@@ -31,6 +31,8 @@ const SeachData = (props) => {
 		spot,
 		upboundFlag,
 		firstFilter,
+		setLoggedIn,
+		setRefresh,
 	} = props;
 
 	const { Title } = Typography;
@@ -95,6 +97,7 @@ const SeachData = (props) => {
 				dateInfo["overSpeedStartDate"] = tempStartDate;
 				dateInfo["overSpeedEndTime"] = tempEndTime;
 				setOverSpeedDate(dateInfo);
+				setRefresh(true);
 			}
 			if (setAddFilter) {
 				if (!classification) {
@@ -128,6 +131,7 @@ const SeachData = (props) => {
 				dateInfo["overSpeedStartDate"] = tempStartDate;
 				dateInfo["overSpeedEndTime"] = tempEndTime;
 				setOverSpeedDate(dateInfo);
+				setRefresh(true);
 			}
 			if (setAddFilter) {
 				if (!classification) {
@@ -158,6 +162,7 @@ const SeachData = (props) => {
 						<Cascader
 							setSelectedLocation={setSelectedLocation}
 							setSelectedLocationCode={setSelectedLocationCode}
+							setLoggedIn={setLoggedIn}
 						/>
 						<DatePicker
 							period={period}

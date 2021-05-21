@@ -52,6 +52,8 @@ const App = (props) => {
 							message.warning("로그아웃 되었습니다");
 						}
 					}
+				} else {
+					message.error("Network Error");
 				}
 				setLoading(false);
 			});

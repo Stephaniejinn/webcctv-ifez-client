@@ -14,6 +14,7 @@ const CascaderWButton = (props) => {
 		setLocationCodeInfo,
 		setCamNameAdd,
 		setLoadingNameAdd,
+		setLoggedIn,
 	} = props;
 	const [selectedLocation, setSelectedLocation] = useState([]);
 	const [selectedLocationCode, setSelectedLocationCode] = useState([]);
@@ -43,6 +44,7 @@ const CascaderWButton = (props) => {
 				setLocationChange={setLocationChange}
 				setCamNameAdd={setCamNameAdd}
 				setLoadingNameAdd={setLoadingNameAdd}
+				setLoggedIn={setLoggedIn}
 			/>
 			<Button size="large" type="primary" onClick={handleSearch}>
 				검색

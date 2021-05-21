@@ -19,6 +19,7 @@ const OverspeedPage = (props) => {
 	const [startDate, setStartDate] = useState("");
 	const [endTime, setEndTime] = useState("");
 	const [count, setCount] = useState(false);
+	const [isRefresh, setRefresh] = useState(false);
 
 	const { Content } = Layout;
 	const { Title } = Typography;
@@ -42,6 +43,8 @@ const OverspeedPage = (props) => {
 							setFirstFilter={setFirstFilter}
 							setCount={setCount}
 							firstFilter={firstFilter}
+							setLoggedIn={setLoggedIn}
+							setRefresh={setRefresh}
 						/>
 						{firstFilter ? (
 							<>
@@ -52,6 +55,8 @@ const OverspeedPage = (props) => {
 									startDate={startDate}
 									endTime={endTime}
 									setLoggedIn={setLoggedIn}
+									isRefresh={isRefresh}
+									setRefresh={setRefresh}
 								/>
 							</>
 						) : null}

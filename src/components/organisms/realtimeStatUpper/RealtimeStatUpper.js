@@ -21,13 +21,16 @@ const RealtimeStatUpper = (props) => {
 		setCurrTime,
 		setRefresh,
 		upboundFlag,
+		setLoggedIn,
 	} = props;
 	var locationHierarchy = [city, district, road, spot];
 
 	const handleRefresh = () => {
+		const currNewDate = new Date();
 		if (
+			currTime.hour() === currNewDate.getHours() &&
 			Math.floor(currTime.minute() / 15) * 15 ===
-			Math.floor(moment(new Date()).minute() / 15) * 15
+				Math.floor(moment(new Date()).minute() / 15) * 15
 		) {
 			message.success("새로운 데이터가 없습니다");
 		} else {
@@ -51,7 +54,7 @@ const RealtimeStatUpper = (props) => {
 					</Button>
 				</div>
 				<div className="search-input-drawer">
-					<SearchDrawer />
+					<SearchDrawer setLoggedIn={setLoggedIn} />
 				</div>
 			</div>
 			{associateIds.length !== 0 && (

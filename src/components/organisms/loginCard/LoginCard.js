@@ -33,7 +33,11 @@ const LoginCard = (props) => {
 			})
 			.catch((err) => {
 				console.log(err);
-				message.error("로그인 실패");
+				if (err.response) {
+					message.error("로그인 실패");
+				} else {
+					message.error("Network Error");
+				}
 			});
 	};
 	const getUserInfo = () => {

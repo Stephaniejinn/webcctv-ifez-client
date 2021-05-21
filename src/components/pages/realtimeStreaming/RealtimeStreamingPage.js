@@ -69,6 +69,7 @@ const RealtimeStreamingPage = (props) => {
 							<SearchInput
 								setCamNameAdd={setCamNameAdd}
 								setLoadingNameAdd={setLoadingNameAdd}
+								setLoggedIn={setLoggedIn}
 							/>
 						</div>
 						<div className="video-container-4">
