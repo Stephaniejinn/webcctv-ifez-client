@@ -94,7 +94,6 @@ const TimeVisualization = (props) => {
 				? totalLaneArr.map((tabName, index) => {
 						return (
 							<TabPane tab={tabName} key={index.toString()}>
-								{/* <TabPane tab="{tabName}" key="0"> */}
 								<TimeDataVisualization
 									period={period}
 									currentLaneNum={currentLaneNum}
@@ -111,15 +110,6 @@ const TimeVisualization = (props) => {
 									startDate={startDate}
 									endTime={endTime}
 								/>
-								{/* <TimeTableCard
-									period={period}
-									tableKey="overSpeed"
-									currentLaneNum={currentLaneNum}
-									trafficTotalData={trafficTotalData}
-									startDate={startDate}
-									endTime={endTime}
-									setLoggedIn={setLoggedIn}
-								/> */}
 								<TimeTableCard
 									period={period}
 									tableKey="second"

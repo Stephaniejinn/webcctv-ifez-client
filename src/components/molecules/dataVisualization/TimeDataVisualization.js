@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { Tabs } from "antd";
 import DayCntLineChart from "../../charts/lineChart/DTCnt";
 import DayPCULineChart from "../../charts/lineChart/DTPCU";
@@ -47,6 +47,19 @@ const TimeDataVisualization = (props) => {
 	const callback = (key) => {
 		setActiveVisualKey(key);
 	};
+	useEffect(() => {
+		if (parseInt(currentLaneNum) !== 0) {
+			if (
+				activeVisualKey === "6" ||
+				activeVisualKey === "7" ||
+				activeVisualKey === "8" ||
+				activeVisualKey === "9" ||
+				activeVisualKey === "10"
+			) {
+				setActiveVisualKey("1");
+			}
+		}
+	}, [currentLaneNum]);
 
 	return (
 		<Tabs
@@ -224,9 +237,7 @@ const TimeDataVisualization = (props) => {
 						)}
 					</TabPane>
 				</>
-			) : (
-				setActiveVisualKey("1")
-			)}
+			) : null}
 		</Tabs>
 	);
 };
